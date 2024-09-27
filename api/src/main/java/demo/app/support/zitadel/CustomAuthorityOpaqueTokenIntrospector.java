@@ -18,7 +18,7 @@ public class CustomAuthorityOpaqueTokenIntrospector implements OpaqueTokenIntros
         this.delegate = delegate;
     }
 
-    private OpaqueTokenIntrospector delegate;
+    private final OpaqueTokenIntrospector delegate;
 
     public OAuth2AuthenticatedPrincipal introspect(String token) {
         OAuth2AuthenticatedPrincipal principal = this.delegate.introspect(token);
@@ -34,9 +34,7 @@ public class CustomAuthorityOpaqueTokenIntrospector implements OpaqueTokenIntros
             return authorities;
         }
 
-        claims.keySet().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-        });
+        claims.keySet().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
 
         return authorities;
     }
